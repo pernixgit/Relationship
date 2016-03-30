@@ -7,6 +7,17 @@
  * @package Listable
  */
 
+// functions created by Ruben Mora
+function display_state() {
+    if (is_user_logged_in()) {
+		$cu = wp_get_current_user();
+        $var = "SELECT user_status FROM wp_fema_users where ID = " . $cu->ID . " " ;
+        global $wpdb;
+		$user_count = $wpdb->get_var($var);
+		echo "<p>User state is {$user_count}</p>";
+	}
+}
+
 if ( ! function_exists( 'listable_setup' ) ) :
 	/**
 	 * Sets up theme defaults and registers support for various WordPress features.
