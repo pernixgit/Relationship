@@ -603,4 +603,26 @@ function change_social_login_text_option( $login_text ) {
 
  	return $login_text;
 }
+
+// functions created by Ruben Mora
+function display_state() {
+    if (is_user_logged_in()) {
+		$cu = wp_get_current_user();
+        $var = "SELECT user_status FROM wp_fema_users where ID = " . $cu->ID . " " ;
+        global $wpdb;
+		$user_count = $wpdb->get_var($var);
+		echo "<p>User state is {$user_count}</p>";
+	}
+}
+
+function update_state($state) {
+    if (is_user_logged_in()) {
+		$cu = wp_get_current_user();
+		$var = "UPDATE wp_fema_users set user_status = " . $state . " where ID = " . $cu->ID . " " ;
+		global $wpdb;
+		$user_count = $wpdb->get_var($var);
+		echo "<p>User state is {$user_count}</p>";
+	}
+}
+
 add_filter( 'pre_option_wc_social_login_text', 'change_social_login_text_option' );
