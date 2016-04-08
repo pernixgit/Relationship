@@ -12,6 +12,17 @@ get_header(); ?>
 <div id="primary" class="content-area">
 	<main id="main" class="site-main" role="main">
 
+  <?php if (is_user_logged_in()) { ?>
+  <button style="color: #FF0000; background-color: #FFCC66;" type="button" id="attendbtn">Participar</button>
+
+  <script type="text/javascript">
+      jQuery("#attendbtn").click(function(){
+          var phpdivide= <?php echo establish_attendance(1);?>
+          alert("Done");
+      })
+  </script>
+  <?php  }  ?>
+
 	<?php while ( have_posts() ) : the_post(); ?>
 
 		<article id="post-<?php the_ID(); ?>" <?php post_class(); ?> itemscope itemtype="http://schema.org/LocalBusiness">
