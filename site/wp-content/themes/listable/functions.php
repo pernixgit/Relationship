@@ -601,32 +601,44 @@ function change_social_login_text_option( $login_text ) {
 
 // functions created by Ruben Mora
 function display_state() {
-  if (is_user_logged_in()) {
-    $cu = wp_get_current_user();
-    $var = "SELECT user_status FROM wp_fema_users where ID = " . $cu->ID . " " ;
-    global $wpdb;
-    $user_count = $wpdb->get_var($var);
-    echo "<p>User state is {$user_count}</p>";
-  }
+  $cu = wp_get_current_user();
+  $var = "SELECT user_status FROM wp_fema_users where ID = " . $cu->ID . " " ;
+  global $wpdb;
+  $user_count = $wpdb->get_var($var);
+  echo "<p>User state is {$user_count}</p>";
 }
 
 function update_state($state) {
-  if (is_user_logged_in()) {
-    $cu = wp_get_current_user();
-    $var = "UPDATE wp_fema_users set user_status = " . $state . " where ID = " . $cu->ID . " " ;
-    global $wpdb;
-    $user_count = $wpdb->get_var($var);
-    echo "<p>User state is {$user_count}</p>";
-  }
+  $cu = wp_get_current_user();
+  $var = "UPDATE wp_fema_users set user_status = " . $state . " where ID = " . $cu->ID . " " ;
+  global $wpdb;
+  $user_count = $wpdb->get_var($var);
+  echo "<p>User state is {$user_count}</p>";
 }
 
-function update_state($state) {
-  if (is_user_logged_in()) {
-    $cu = wp_get_current_user();
-    $var = "UPDATE wp_fema_users set user_status = " . $state . " where ID = " . $cu->ID . " " ;
-    global $wpdb;
-    $user_count = $wpdb->get_var($var);
-    echo "<p>User state is {$user_count}</p>";
+//get_the_ID();
+//get_the_guid();  Both can be helpful to get the ip post
+function establish_attendance() {
+  $cu = wp_get_current_user();
+  $id_post = get_the_ID();
+  $var = "insert into participants values ( null,  " . $cu -> ID . " , " . $id_post . " ); " ;
+  global $wpdb;
+  $wpdb->query($wpdb->prepare($var));
+}
+
+// ask to know if the user is participant already 
+function will_user_attend($user,$id_post) {
+  $cu = wp_get_current_user();
+  $var = "select count(*) from participants where id_user = " . $cu -> ID . " and id_post = " . $id_post . "  ";
+  global $wpdb;
+  $count = $wpdb->get_var($var);
+  echo "<p>there is {count}</p>";
+  
+  if($count == 1) {
+	return true;
+  }
+  else {
+    return false;
   }
 }
 
