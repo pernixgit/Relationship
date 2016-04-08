@@ -32,12 +32,6 @@
 <?php wp_head(); ?>
 </head>
 <body <?php body_class(); ?> data-mapbox-token="<?php echo listable_get_option('mapbox_token', ''); ?>" data-mapbox-style="<?php echo listable_get_option('mapbox_style', ''); ?>">
-
-<<<<<<< HEAD
-<?php
-display_state();
-?>
-=======
 			<?php
 			display_state();
 			?>
@@ -52,9 +46,6 @@ display_state();
 			    })
 			</script>
 
-
-
->>>>>>> b9f97c5b4c9719317784d50d8489f9f8250f4291
 
 <div id="page" class="hfeed site">
 	<a class="skip-link screen-reader-text" href="#content"><?php esc_html_e( 'Skip to content', 'listable' ); ?></a>
