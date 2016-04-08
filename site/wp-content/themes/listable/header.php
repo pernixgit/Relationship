@@ -12,18 +12,40 @@
 ?><!DOCTYPE html>
 <html <?php language_attributes(); ?>>
 <head>
+<script src="ajax.js"></script>
 <meta charset="<?php bloginfo( 'charset' ); ?>">
 <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
 <link rel="profile" href="http://gmpg.org/xfn/11">
 <link rel="pingback" href="<?php bloginfo( 'pingback_url' ); ?>">
 
+
+
+
+
+			<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js">
+			</script>
+
+
+
+
+
 <?php wp_head(); ?>
 </head>
 <body <?php body_class(); ?> data-mapbox-token="<?php echo listable_get_option('mapbox_token', ''); ?>" data-mapbox-style="<?php echo listable_get_option('mapbox_style', ''); ?>">
+			<?php
+			display_state();
+			?>
 
-<?php
-display_state();
-?>
+			<p>Presione actualizar para actualizar su estado a 1</p>
+			<button style="color: #FF0000; background-color: #FFCC66;" type="button" id="calcularBtn">Actualizar</button>
+
+			<script type="text/javascript">
+			    jQuery("#calcularBtn").click(function(){
+			    	//document.write(' <?php update_state(); ?> ');
+			        var phpdivide= <?php echo update_state(1); display_state();?>
+			    })
+			</script>
+
 
 <div id="page" class="hfeed site">
 	<a class="skip-link screen-reader-text" href="#content"><?php esc_html_e( 'Skip to content', 'listable' ); ?></a>
