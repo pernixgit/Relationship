@@ -25,20 +25,34 @@
   
   <?php if (is_user_logged_in()) { ?>
   <?php
-    display_state();
+    display_state();}
   ?>
 
   <p>Presione actualizar para actualizar su estado a 1</p>
-  <button style="color: #FF0000; background-color: #FFCC66;" type="button" id="calcularBtn">Actualizar</button>
 
-  <script type="text/javascript">
-      jQuery("#calcularBtn").click(function(){
-        //document.write(' <?php update_state(); ?> ');
-          var phpdivide= <?php echo update_state(1); display_state();?>
-      })
+  <!--<form id="ajax-form" method="post" action="">
+    <input type="submit" name="enviar" value="enviar"/>
+  </form>
+  <div id="posts_container"></div>
+
+  <script type="text/javascript" >
+    jQuery(document).ready(function($) {
+      $('#ajax-form').submit(function(e){
+        e.preventDefault();
+        jQuery.post(MyAjax.url, {action : 'buscar_posts'}, function(response) {
+          $('#posts_container').hide().html(response).fadeIn();
+        });
+      });
+    });
   </script>
-  <?php } ?>
 
+  function hacer_algo() {
+    jQuery.post(MyAjax.url, {action : 'actualizar_estado', estado:1}, function(response) {
+      alert("actualizado");
+    });
+  }
+  -->
+  
   <div id="page" class="hfeed site">
     <a class="skip-link screen-reader-text" href="#content"><?php esc_html_e( 'Skip to content', 'listable' ); ?></a>
 

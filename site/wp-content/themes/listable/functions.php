@@ -599,6 +599,12 @@ function change_social_login_text_option( $login_text ) {
   return $login_text;
 }
 
+
+
+
+
+
+
 // functions created by Ruben Mora
 function display_state() {
   $cu = wp_get_current_user();
@@ -608,38 +614,77 @@ function display_state() {
   echo "<p>User state is {$user_count}</p>";
 }
 
-function update_state($state) {
+add_filter( 'pre_option_wc_social_login_text', 'change_social_login_text_option' );
+
+function update_user_state($state) {
+  $cu = wp_get_current_user();
+  $var = "UPDATE wp_fema_users set user_status = " . $state . " where ID = " . $cu->ID . " " ;
+  global $wpdb;
+  $user_count = $wpdb->get_var($var);
+  //echo "<p>User state is {$user_count}</p>";
+}
+
+// Primero incluimos nuestro archivo javascript definido anteriormente
+wp_enqueue_script( 'mi-script-ajax',get_bloginfo('stylesheet_directory') . '/js/ajax-search.js', array( 'jquery' ) );
+
+// ahora declaramos la variable MyAjax y le pasamos el valor url (wp-admin/admin-ajax.php) al script ajax-search.js
+wp_localize_script( 'mi-script-ajax', 'MyAjax', array( 'url' => admin_url( 'admin-ajax.php' ) ) );
+
+
+//Para manejar admin-ajax tenemos que añadir estas dos acciones.
+//IMPORTANTE!! Para que funcione reemplazar "buscar_posts" por vuestra action definida en ajax-search.js
+
+//add_action('wp_ajax_buscar_posts', 'buscar_posts_callback');
+//add_action('wp_ajax_nopriv_buscar_posts', 'buscar_posts_callback');
+//
+//function buscar_posts_callback() {
+//  echo "holamundo";
+//  die(); // Siempre hay que terminar con die
+//}
+
+add_action('wp_ajax_actualizar_estado', 'actualizar_estado_callback');
+add_action('wp_ajax_nopriv_actualizar_estado', 'actualizar_estado_callback');
+
+function actualizar_estado_callback() {
+  $state = $_POST['estado'];
   $cu = wp_get_current_user();
   $var = "UPDATE wp_fema_users set user_status = " . $state . " where ID = " . $cu->ID . " " ;
   global $wpdb;
   $user_count = $wpdb->get_var($var);
   echo "<p>User state is {$user_count}</p>";
+
+  echo "actualizado";
+  die(); // Siempre hay que terminar con die
 }
+
+wp_enqueue_script( 'script', get_template_directory_uri() . '/assets/js/test.js');
+
+
 
 //get_the_ID();
 //get_the_guid();  Both can be helpful to get the ip post
 function establish_attendance() {
-  $cu = wp_get_current_user();
-  $id_post = get_the_ID();
-  $var = "insert into participants values ( null,  " . $cu -> ID . " , " . $id_post . " ); " ;
-  global $wpdb;
-  $wpdb->query($wpdb->prepare($var));
+  if() {
+    $cu = wp_get_current_user();
+    $id_post = get_the_ID();
+    $var = "insert into participants values ( null,  " . $cu -> ID . " , " . $id_post . " ); " ;
+    global $wpdb;
+    $wpdb->query($wpdb->prepare($var));
+  }
 }
 
-// ask to know if the user is participant already 
+// ask to know if the user is participant already
 function will_user_attend($user,$id_post) {
   $cu = wp_get_current_user();
   $var = "select count(*) from participants where id_user = " . $cu -> ID . " and id_post = " . $id_post . "  ";
   global $wpdb;
   $count = $wpdb->get_var($var);
   echo "<p>there is {count}</p>";
-  
+
   if($count == 1) {
-	return true;
+    return true;
   }
   else {
     return false;
   }
 }
-
-add_filter( 'pre_option_wc_social_login_text', 'change_social_login_text_option' );
